@@ -17,7 +17,6 @@ class Stack
 
   def pop
       @stack.shift
-      return @stack
   end
 
   def peek

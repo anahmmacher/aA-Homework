@@ -17,7 +17,6 @@ class Queue
 
   def dequeue
       @queue.pop
-      return @queue
   end
 
   def peek
