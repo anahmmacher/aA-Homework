@@ -1,9 +1,13 @@
+require 'byebug'
+
 class LRUCache
+  attr_reader :max_size
+
   def initialize(max_size)
     @max_size = max_size
 
     @cache = {}
-
+    @queue = []
   end
 
   def count
@@ -11,18 +15,29 @@ class LRUCache
   end
 
   def add(el)
-    if cache_queue.include?(el)
-    cache_queue.unshift(el)
-    cache_queue.pop if cache_queue.size > max_size
+      if @queue.include?(el)
+        i = @queue.index(el)
+        c = @queue.slice!(i)
+        @queue << el
+      else
+      @queue.<<el
+    end
+
+    @queue.shift if @queue.size > max_size
+
+    queue_add(@queue)
   end
 
   def show
-    @cache.values
+   print @cache.values
   end
 
   private
-  def cache_queue
-    arr = Array.new(@max_size)
+  def queue_add(arr)
+    arr.each_with_index do |val, i|
+      @cache[i] = val
+    end
+    @cache
   end
 
 end
